@@ -13,6 +13,16 @@ class EllipticCurve
 		end
 	end
 
+	def evaluate(x)
+		points = find_points(x)
+		point = Point.new(x,points[:positive])
+	end
+
+	def evaluate_negative(x)
+		points = find_points(x)
+		point = Point.new(x,points[:negative])
+	end
+
 	def add_points(a,b)
 		r = {}
 		if a == b
@@ -45,7 +55,7 @@ class EllipticCurve
 		end
 
 	end
-	
+
 	def point_on_curve?(point)
 		left = point.y ** 2
 		right = ( point.x ** 3 ) + ( @equation[:a] * point.x ) + @equation[:b]
@@ -63,4 +73,3 @@ class Point
 		@y = y
 	end
 end
-
