@@ -1,5 +1,10 @@
 load 'modular_arithmetic.rb'
 
+# A toy/learning library for generating and elliptic curve. (Not for acutal crypro)
+# Based off of https://www.johannes-bauer.com/compsci/ecc/
+# Reqires the ruby modular arithmetic library which can be found
+# at https://gist.github.com/jingoro/2388745
+
 class EllipticCurve
 	include ModularArithmetic
 	attr_accessor :equation, :modulo
