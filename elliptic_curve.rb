@@ -10,12 +10,16 @@ class EllipticCurve
 	attr_accessor :equation, :modulo
 
 	def initialize(a,b, modulo = nil)
-		if 4*(a**3)+27*(b**2) == 0
+		if discriminant(a,b) == 0
 			puts "Invalid! Equation contains singularity!"
 		else
 			@equation = {a: a, b: b}
 			@modulo = modulo
 		end
+	end
+
+	def discriminant(a = @equation[:a], b = @equation[:b])
+		-16 * ( (4 * a ** 3) + (27 * b ** 2))
 	end
 
 	def evaluate(x)
@@ -28,18 +32,18 @@ class EllipticCurve
 		point = Point.new(x,points[:negative])
 	end
 
-	def add_points(a,b)
-		r = {}
+	def add_points(a,b, mod = nil)
+		r = Point.new()
 		if a == b
 			slope = (3*a.y**2 + @equation[:a]) / (2 * a.y)
-			r[:x] = slope**2 - (2 * a.x)
-			r[:y] = ( slope * ( a.x - r[:x]) ) - a.y
+			r.x = slope**2 - (2 * a.x)
+			r.y = ( slope * ( a.x - r.x) ) - a.y
 		else
 			slope = (a.y-b.y)/(a.x-b.x)
-			r[:x] = slope**2 - a.x - b.x
-			r[:y] = slope * (a.x - r[:x] ) - a.y
+			r.x = slope**2 - a.x - b.x
+			r.y = slope * (a.x - r.x ) - a.y
 		end
-		r
+		mod.nil? ? r : ModuloPoint.new(r,mod)
 	end
 
 	def double_point(a)
@@ -76,5 +80,15 @@ class Point
 	def initialize(x,y)
 		@x = x
 		@y = y
+	end
+end
+
+class ModuloPoint
+	attr_accessor :x, :y, :mod
+
+	def initialize(point,mod)
+		@x = point.x % mod
+		@y = point.y % mod
+		@mod = mod
 	end
 end
