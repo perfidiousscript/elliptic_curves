@@ -62,7 +62,7 @@ class EllipticCurve
 		unless ((a.class == ( Fixnum || Float)) && point.class == Point)
 			return "Must take a scalar and a point: (scalar,Point)"
 		end
-
+		
 	end
 
 	def point_on_curve?(point, strict=false)
