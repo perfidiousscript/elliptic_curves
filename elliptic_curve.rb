@@ -65,10 +65,10 @@ class EllipticCurve
 
 	end
 
-	def point_on_curve?(point)
+	def point_on_curve?(point, strict=false)
 		left = point.y ** 2
 		right = ( point.x ** 3 ) + ( @equation[:a] * point.x ) + @equation[:b]
-		(left - right) < 0.01 ? true : {left: left, right: right}
+		strict ? left == right : (left - right) < 0.01
 	end
 
 end
